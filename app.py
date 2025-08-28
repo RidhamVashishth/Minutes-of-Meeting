@@ -12,7 +12,7 @@ load_dotenv()
 genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
 
 # Corrected variable assignment with '='
-model = genai.GenerativeModel('gemini-pro-vision') # Using gemini-pro-vision as it's standard for image inputs
+model = genai.GenerativeModel('gemini-2.0-flash') # Using gemini-pro-vision as it's standard for image inputs
 
 # Creating the Header
 st.header(":blue[Minutes of Meeting] Generator 📜", divider="red")
