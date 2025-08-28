@@ -48,7 +48,9 @@ Be accurate, concise, and clean in formatting.
             st.markdown("### 🗂️ Extracted Minutes of Meeting")
             st.markdown(response.text)
         except Exception as e:
-            st.error(f"❌ Error: {e}")
+            print("‼️ An error occurred during the API call.")
+            traceback.print_exc() # This prints the full error traceback to the terminal
+            st.error(f"❌ An error occurred: {e}")
 
 else:
     st.info("📥 Please upload a handwritten MoM image to proceed.")
