@@ -1,22 +1,29 @@
 import os
-from dotenv import load_dotenv 
+from dotenv import load_dotenv
 import google.generativeai as genai
 from PIL import Image
 import streamlit as st
 
-genai.configure(api_key=getenv('GOOGLE-API-KEY'))
-model- genai.GenerativeModel('gemini-2.0-flash')
+# Load environment variables from .env file
+load_dotenv()
+
+# Use the correct key name from your .env file
+genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
+
+# Corrected variable assignment with '='
+model = genai.GenerativeModel('gemini-pro-vision') # Using gemini-pro-vision as it's standard for image inputs
 
 # Creating the Header
-
 st.header(":blue[Minutes of Meeting] Generator 📜", divider="red")
 st.markdown("Upload your handwritten MoMs (Minutes of Meeting) image. I’ll extract the to-dos and create a clean, structured table.")
-uploaded_file=st.file_uploader('Upload Your Image', type=['jpg', 'jpeg', 'png'])
+uploaded_file = st.file_uploader('Upload Your Image', type=['jpg', 'jpeg', 'png'])
 
-if upload_file is not None:
-    img= Image.open(uploaded_file)
-    st.image(img, use_container_width=True)
-    prompt= f''' You are an intelligent assistant tasked with generating structured Minutes of Meeting (MoM) based on handwritten notes and to-dos provided as images. Your job is to extract text from the images and organize the information into a clean, professional table with the following columns:
+# Corrected variable name 'uploaded_file'
+if uploaded_file is not None:
+    img = Image.open(uploaded_file)
+    st.image(img, caption="Uploaded MoM Image", use_column_width=True) # Changed use_container_width to use_column_width for better compatibility
+    
+    prompt = '''You are an intelligent assistant tasked with generating structured Minutes of Meeting (MoM) based on handwritten notes and to-dos provided as images. Your job is to extract text from the images and organize the information into a clean, professional table with the following columns:
 | Particulars (To-Dos) | Deadline | Status (Completed / Pending / Not Started) | % Completion |
 Requirements:
 OCR: Accurately read and transcribe handwritten text from the uploaded images.
@@ -26,7 +33,7 @@ Status Assignment: Based on context (e.g., checkmarks, strikethroughs, annotatio
 ✅ Completed
 🕒 Pending
 ⏳ Not Started
-Completion %: Estimate a percentage completion (e.g., 0%, 50%, 100%) based on the language or markings (e.g., “half done”, “in progress”, “✓✓✓”, etc.). 
+Completion %: Estimate a percentage completion (e.g., 0%, 50%, 100%) based on the language or markings (e.g., “half done”, “in progress”, “✓✓✓”, etc.).
 
 📋 Format the output into a markdown table with these columns:
 | Particulars (To-Dos) | Deadline | Status | % Completion |
@@ -34,11 +41,9 @@ Completion %: Estimate a percentage completion (e.g., 0%, 50%, 100%) based on th
 Be accurate, concise, and clean in formatting.
 '''
 
-
- 
-with st.spinner('Extracting and Analysing the Image'):
-    try:
-            response = model.generate_content([img, prompt])
+    with st.spinner('Extracting and Analysing the Image...'):
+        try:
+            response = model.generate_content([prompt, img]) # Swapped order for convention, prompt first
             st.success("✅ Extraction Completed")
             st.markdown("### 🗂️ Extracted Minutes of Meeting")
             st.markdown(response.text)
