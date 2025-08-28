@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import google.generativeai as genai
 from PIL import Image
 import streamlit as st
+import traceback
 
 # Load environment variables from .env file
 load_dotenv()
