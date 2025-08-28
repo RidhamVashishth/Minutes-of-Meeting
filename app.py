@@ -21,7 +21,7 @@ uploaded_file = st.file_uploader('Upload Your Image', type=['jpg', 'jpeg', 'png'
 # Corrected variable name 'uploaded_file'
 if uploaded_file is not None:
     img = Image.open(uploaded_file)
-    st.image(img, caption="Uploaded MoM Image", use_column_width=True) # Changed use_container_width to use_column_width for better compatibility
+    st.image(img, caption="Uploaded MoM Image", use_container_width=True) # Changed use_container_width to use_column_width for better compatibility
     
     prompt = '''You are an intelligent assistant tasked with generating structured Minutes of Meeting (MoM) based on handwritten notes and to-dos provided as images. Your job is to extract text from the images and organize the information into a clean, professional table with the following columns:
 | Particulars (To-Dos) | Deadline | Status (Completed / Pending / Not Started) | % Completion |
